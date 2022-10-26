@@ -1,0 +1,21 @@
+{
+    "name": "karelwintersky/arris.php-file-download",
+    "description": "A library to help with creating downloads for files in PHP",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Karel Wintersky",
+            "email": "karel.wintersky@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">7.2",
+        "skyzyx/mimetypes": "^1.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Arris\\Toolkit\\": "src/"
+        }
+    }
+}
