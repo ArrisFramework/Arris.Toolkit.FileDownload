@@ -12,7 +12,6 @@ namespace Arris\Toolkit;
 
 use InvalidArgumentException;
 use RuntimeException;
-use Skyzyx\Components\Mimetypes\Mimetypes;
 
 class FileDownload implements FileDownloadInterface
 {
