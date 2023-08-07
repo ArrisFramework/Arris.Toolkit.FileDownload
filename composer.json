@@ -11,7 +11,7 @@
     ],
     "require": {
         "php": ">7.2",
-        "karelwintersky/arris.toolkit.mimetypes": "^0.9.0"
+        "karelwintersky/arris.toolkit.mimetypes": "^1"
     },
     "autoload": {
         "psr-4": {

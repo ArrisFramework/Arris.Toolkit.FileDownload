@@ -85,8 +85,8 @@ class FileDownload implements FileDownloadInterface
     private function getMimeType(string $fileName): string
     {
         $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
-        $mimeTypeHelper = Mimetypes::getInstance();
-        $mimeType = $mimeTypeHelper->fromExtension($fileExtension);
+
+        $mimeType = MimeTypes::fromExtension( $fileExtension );
 
         return !is_null($mimeType) ? $mimeType : "application/force-download";
     }
