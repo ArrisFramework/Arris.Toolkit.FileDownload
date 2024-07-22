@@ -36,17 +36,17 @@ class FileDownload implements FileDownloadInterface
      */
     public function __construct($filePointer, string $filePath)
     {
-        if (!is_resource($filePointer)) {
+        if (!\is_resource($filePointer)) {
             throw new InvalidArgumentException("You must pass a file pointer to the constructor");
         }
 
         $this->filePointer = $filePointer;
-        $this->fileName = pathinfo($filePath, PATHINFO_BASENAME);
+        $this->fileName = \pathinfo($filePath, PATHINFO_BASENAME);
     }
 
     public function sendDownload(string $filename = '', bool $forceDownload = true)
     {
-        if (headers_sent()) {
+        if (\headers_sent()) {
             throw new RuntimeException("Cannot send file to the browser, since the headers were already sent.");
         }
 
@@ -54,25 +54,25 @@ class FileDownload implements FileDownloadInterface
             $filename = $this->fileName;
         }
 
-        header("Pragma: public");
-        header("Expires: 0");
-        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-        header("Cache-Control: private", false);
-        header("Content-Type: {$this->getMimeType($filename)}");
+        \header("Pragma: public");
+        \header("Expires: 0");
+        \header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+        \header("Cache-Control: private", false);
+        \header("Content-Type: {$this->getMimeType($filename)}");
 
         if ($forceDownload) {
-            header("Content-Disposition: attachment; filename=\"{$filename}\";");
+            \header("Content-Disposition: attachment; filename=\"{$filename}\";");
         } else {
-            header("Content-Disposition: filename=\"{$filename}\";");
+            \header("Content-Disposition: filename=\"{$filename}\";");
         }
 
-        header("Content-Transfer-Encoding: binary");
-        header("Content-Length: {$this->getFileSize()}");
+        \header("Content-Transfer-Encoding: binary");
+        \header("Content-Length: {$this->getFileSize()}");
 
         @ob_clean();
 
-        rewind($this->filePointer);
-        fpassthru($this->filePointer);
+        \rewind($this->filePointer);
+        \fpassthru($this->filePointer);
     }
 
     /**
@@ -84,11 +84,11 @@ class FileDownload implements FileDownloadInterface
      */
     private function getMimeType(string $fileName): string
     {
-        $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
+        $fileExtension = \pathinfo($fileName, PATHINFO_EXTENSION);
 
         $mimeType = MimeTypes::fromExtension( $fileExtension );
 
-        return !is_null($mimeType) ? $mimeType : "application/force-download";
+        return empty($mimeType) ? "application/force-download" : $mimeType;
     }
 
     /**
@@ -98,7 +98,7 @@ class FileDownload implements FileDownloadInterface
      */
     public function getFileSize(): int
     {
-        $stat = fstat($this->filePointer);
+        $stat = \fstat($this->filePointer);
         if ($stat === false) {
             throw new RuntimeException("Get File size error");
         }
@@ -108,31 +108,30 @@ class FileDownload implements FileDownloadInterface
 
     public static function createFromFilePath(string $filePath): FileDownloadInterface
     {
-        if (!is_file($filePath)) {
+        if (!\is_file($filePath)) {
             throw new InvalidArgumentException("File does not exist");
-        } else if (!is_readable($filePath)) {
+        } else if (!\is_readable($filePath)) {
             throw new InvalidArgumentException("File to download is not readable");
         }
 
-        return new static(fopen($filePath, "rb"), $filePath);
+        return new static(\fopen($filePath, "rb"), $filePath);
     }
 
     public static function createFromString(string $content): FileDownloadInterface
     {
-        $file = tmpfile();
-        fwrite($file, $content);
+        $file = \tmpfile();
+        \fwrite($file, $content);
 
         return new static($file, '');
     }
 
     public static function createFromResource($fileResource): FileDownloadInterface
     {
-        $meta_data = stream_get_meta_data($fileResource);
+        $meta_data = \stream_get_meta_data($fileResource);
         $filename = $meta_data["uri"];
 
         return new static($fileResource, $filename);
     }
-
 
 }
 
