@@ -10,8 +10,8 @@
         }
     ],
     "require": {
-        "php": "^7.4 | ^8.0",
-        "karelwintersky/arris.toolkit.mimetypes": "^1"
+        "php": "^8.0",
+        "karelwintersky/arris.toolkit.mimetypes": "^2"
     },
     "autoload": {
         "psr-4": {

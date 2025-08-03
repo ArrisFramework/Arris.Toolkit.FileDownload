@@ -1,12 +1,4 @@
 <?php
-/**
- * Provides the possibility to easily create file downloads in PHP
- *
- * @author Jannik Zschiesche <hello@apfelbox.net>
- * @author Karel Wintersky <karel.wintersky@gmail.com>
- * @version 1.0
- * @license MIT
- */
 
 namespace Arris\Toolkit;
 
@@ -25,7 +17,7 @@ class FileDownload implements FileDownloadInterface
     /**
      * @var string
      */
-    private $fileName;
+    private string $fileName;
 
     /**
      * Constructs a new file download
@@ -88,7 +80,7 @@ class FileDownload implements FileDownloadInterface
 
         $mimeType = MimeTypes::fromExtension( $fileExtension );
 
-        return empty($mimeType) ? "application/force-download" : $mimeType;
+        return ($mimeType === MimeTypes::UNKNOWN_MIME_TYPE) ? "application/force-download" : $mimeType;
     }
 
     /**
