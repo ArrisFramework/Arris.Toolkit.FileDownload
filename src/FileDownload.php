@@ -59,7 +59,9 @@ class FileDownload implements FileDownloadInterface
         \header("Content-Transfer-Encoding: binary");
         \header("Content-Length: {$this->getFileSize()}");
 
-        @ob_clean();
+        while (\ob_get_level() > 0) {
+            \ob_end_clean();
+        }
 
         \rewind($this->filePointer);
         \fpassthru($this->filePointer);
@@ -125,6 +127,16 @@ class FileDownload implements FileDownloadInterface
         $filename = $meta_data["uri"];
 
         return new static($fileResource, $filename);
+    }
+
+    /**
+     * Closes the underlying file pointer, releasing temporary files created by createFromString()
+     */
+    public function __destruct()
+    {
+        if (\is_resource($this->filePointer)) {
+            \fclose($this->filePointer);
+        }
     }
 
 }
