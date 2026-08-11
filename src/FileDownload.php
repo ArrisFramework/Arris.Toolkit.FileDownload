@@ -59,8 +59,8 @@ class FileDownload implements FileDownloadInterface
         \header("Content-Transfer-Encoding: binary");
         \header("Content-Length: {$this->getFileSize()}");
 
-        while (\ob_get_level() > 0) {
-            \ob_end_clean();
+        if (\ob_get_level() > 0) {
+            \ob_clean();
         }
 
         \rewind($this->filePointer);
