@@ -54,4 +54,15 @@ interface FileDownloadInterface
      * @return FileDownloadInterface
      */
     public static function createFromString(string $content): FileDownloadInterface;
+
+    /**
+     * Creates a new file download helper from an already opened file resource
+     *
+     * @static
+     *
+     * @param resource $fileResource
+     *
+     * @return FileDownloadInterface
+     */
+    public static function createFromResource($fileResource): FileDownloadInterface;
 }
