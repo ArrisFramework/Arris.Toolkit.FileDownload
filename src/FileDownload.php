@@ -52,11 +52,9 @@ class FileDownload implements FileDownloadInterface
         \header("Cache-Control: private", false);
         \header("Content-Type: {$this->getMimeType($filename)}");
 
-        if ($forceDownload) {
-            \header("Content-Disposition: attachment; filename=\"{$filename}\";");
-        } else {
-            \header("Content-Disposition: filename=\"{$filename}\";");
-        }
+        $disposition = $forceDownload ? "attachment" : "inline";
+        $filenameFallback = \preg_replace('/[^A-Za-z0-9._-]+/', '_', $filename);
+        \header("Content-Disposition: {$disposition}; filename=\"{$filenameFallback}\"; filename*=UTF-8''" . \rawurlencode($filename));
 
         \header("Content-Transfer-Encoding: binary");
         \header("Content-Length: {$this->getFileSize()}");
