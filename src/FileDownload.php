@@ -78,7 +78,7 @@ class FileDownload implements FileDownloadInterface
 
         $mimeType = MimeTypes::fromExtension( $fileExtension );
 
-        return ($mimeType === MimeTypes::UNKNOWN_MIME_TYPE) ? "application/force-download" : $mimeType;
+        return ($mimeType === MimeTypes::UNKNOWN_MIME_TYPE) ? "application/octet-stream" : $mimeType;
     }
 
     /**
