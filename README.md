@@ -25,8 +25,13 @@ $fileDownload->sendDownload("download.pdf");
 ## Create a download for a file via file pointer
 ```php
 $file = /* your file, somewhere opened with fopen() or tmpfile(), etc.. */;
-$fileDownload = new FileDownload($file);
+$fileDownload = FileDownload::createFromResource($file);
 $fileDownload->sendDownload("download.pdf");
+```
+
+If you already have a file pointer and the source path, the constructor can be used directly:
+```php
+$fileDownload = new FileDownload($file, "/path/to/file.pdf");
 ```
 
 
