@@ -36,7 +36,7 @@ class FileDownload implements FileDownloadInterface
         $this->fileName = \pathinfo($filePath, PATHINFO_BASENAME);
     }
 
-    public function sendDownload(string $filename = '', bool $forceDownload = true)
+    public function sendDownload(string $filename = '', bool $forceDownload = true, bool $exit = true)
     {
         if (\headers_sent()) {
             throw new RuntimeException("Cannot send file to the browser, since the headers were already sent.");
@@ -63,6 +63,10 @@ class FileDownload implements FileDownloadInterface
 
         \rewind($this->filePointer);
         \fpassthru($this->filePointer);
+
+        if ($exit) {
+            exit;
+        }
     }
 
     /**

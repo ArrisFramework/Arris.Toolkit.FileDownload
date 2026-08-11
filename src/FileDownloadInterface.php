@@ -21,10 +21,11 @@ interface FileDownloadInterface
      *
      * @param string $filename
      * @param bool $forceDownload
+     * @param bool $exit terminate the script after the file has been sent
      *
      * @throws RuntimeException would thrown if the headers are already sent
      */
-    public function sendDownload(string $filename = '', bool $forceDownload = true);
+    public function sendDownload(string $filename = '', bool $forceDownload = true, bool $exit = true);
 
     /**
      * Returns the file size of the file
